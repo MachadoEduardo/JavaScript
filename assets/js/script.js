@@ -53,6 +53,15 @@ const saveTask = (text) => {
 
     // Limpar campo de entrada da tarefa
     inputTask.value=""
+
+    // Continuar no campo de entrada
+
+}
+
+function editFormulario(){
+    editForm.classList.toggle("hide")
+    addForm.classList.toggle("hide")
+    listTask.classList.toggle("hide")
 }
 
 
@@ -65,5 +74,36 @@ addForm.addEventListener("submit", (elem)=>{
     // Debug -> console.log("O valor digitado foi: " + inputValue)
     if(inputValue){
         saveTask(inputValue)
+    }
+})
+
+document.addEventListener("click", (elem)=>{
+    // Pegar o target do elemento para saber qual é
+    const targetElement = elem.target
+    // Reconhecer quem é o pai do elemento
+    const parentElement = targetElement.closest("div")
+    let taskTitle;
+    // Verificar se existe elemento pai, e se ele contem um H3
+    if(parentElement && parentElement.querySelector("h3")){
+        taskTitle = parentElement.querySelector("h3").innerText
+
+    }
+
+    // Filtro para ativar o botão de finalizar tarefa
+    if(targetElement.classList.contains("finish-task")){
+        parentElement.classList.toggle("done")
+    }
+
+    // Excluir tarefa 
+    if(targetElement.classList.contains("delete-task")){
+        parentElement.remove()
+    }
+
+    // Editar tarefa
+    if(targetElement.classList.contains("edit-task")){
+        editFormulario()
+        editInput.value = taskTitle
+        // Salvar o nome antigo
+        oldInputValue = taskTitle
     }
 })
